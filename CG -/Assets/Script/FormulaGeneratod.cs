@@ -9,6 +9,7 @@ public class FormulaGeneratod : MonoBehaviour
     float ticker;
     [SerializeField]
     GameObject basicFormula;
+    GameObject obj;
 
     private void Awake()
     {
@@ -35,6 +36,7 @@ public class FormulaGeneratod : MonoBehaviour
 
     void generateFormula() 
     {
-        GameObject.Instantiate(basicFormula, this.transform.position, Quaternion.identity);
+        obj = GameObject.Instantiate(basicFormula, this.transform.position, basicFormula.transform.rotation);
+        obj.tag = "Enemy";
     }
 }
