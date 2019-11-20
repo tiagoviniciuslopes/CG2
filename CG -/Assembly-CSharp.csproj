@@ -66,6 +66,7 @@
     <Compile Include="Assets\Script\CameraFollow.cs" />
     <Compile Include="Assets\Script\Formula.cs" />
     <Compile Include="Assets\Script\FormulaGeneratod.cs" />
+    <Compile Include="Assets\Script\FullScene.cs" />
     <Compile Include="Assets\Script\Manager.cs" />
     <Compile Include="Assets\Script\Truck.cs" />
     <Reference Include="Unity.Timeline.Editor">

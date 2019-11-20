@@ -19,6 +19,9 @@ public class Truck : MonoBehaviour
     [SerializeField]
     GameObject basicGameOver;
     GameObject objGameOver;
+    float[] rotationRight;
+    float[] rotationLeft;
+    bool right, left;
 
     private void Awake()
     {
@@ -28,8 +31,13 @@ public class Truck : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rotationLeft = new float[3] { 0, 180, 0 };
+        rotationRight = new float[3] { 0, 0, 0 };
         force = 10;
         forceUp = 7;
+        right = true;
+        left = false;
+
     }
 
     // Update is called once per frame
@@ -38,10 +46,23 @@ public class Truck : MonoBehaviour
         velocity = this.truck.velocity.x;
         if (Input.GetKey(KeyCode.LeftArrow) && truck.velocity.x > -15)
         {
+            if (right) 
+            {
+                truck.transform.rotation = Quaternion.Euler(rotationLeft[0], rotationLeft[1], rotationLeft[2]);
+                right = false;
+                left = true;
+            }
             truck.AddForce(Vector2.left * force,ForceMode2D.Force);
         } 
         if (Input.GetKey(KeyCode.RightArrow) && truck.velocity.x < 15) 
         {
+            if (left)
+            {
+                truck.transform.rotation = Quaternion.Euler(rotationRight[0], rotationRight[1], rotationRight[2]);
+                right = true;
+                left = false;
+            }
+            
             truck.AddForce(Vector2.right * force, ForceMode2D.Force);
         }
         if(Input.GetKey(KeyCode.UpArrow) && jump )
