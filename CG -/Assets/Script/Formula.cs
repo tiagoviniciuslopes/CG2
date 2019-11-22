@@ -26,7 +26,7 @@ public class Formula : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag != "Untagged")
+        if (collision.collider.tag != "Untagged" && collision.collider.tag != "Coin")
         {
             Destroy(gameObject);
             

@@ -22,6 +22,11 @@ public class Truck : MonoBehaviour
     float[] rotationRight;
     float[] rotationLeft;
     bool right, left;
+    int totalCoins;
+    [SerializeField]
+    GameObject coinSound;
+    float velX;
+    float velY;
 
     private void Awake()
     {
@@ -37,6 +42,7 @@ public class Truck : MonoBehaviour
         forceUp = 7;
         right = true;
         left = false;
+        totalCoins = 0;
 
     }
 
@@ -44,6 +50,8 @@ public class Truck : MonoBehaviour
     void Update()
     {
         velocity = this.truck.velocity.x;
+        velX = this.truck.velocity.x;
+        velY = this.truck.velocity.y;
         if (Input.GetKey(KeyCode.LeftArrow) && truck.velocity.x > -15)
         {
             if (right) 
@@ -89,10 +97,27 @@ public class Truck : MonoBehaviour
             }
 
             StartCoroutine(GameOver());
-            
+
+
+        } else if (collision.collider.tag == "Coin") 
+        {
+            objExplosionSound = GameObject.Instantiate(coinSound, this.transform.position, this.transform.rotation);
+            Destroy(collision.collider.gameObject);
+            totalCoins++;
+            Debug.Log(totalCoins);
             
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("TRIGGER");
+        objExplosionSound = GameObject.Instantiate(coinSound, this.transform.position, this.transform.rotation);
+        Destroy(collision.gameObject);
+        totalCoins++;
+        Debug.Log(totalCoins);
+    }
+
 
     IEnumerator GameOver()
     {

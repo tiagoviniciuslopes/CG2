@@ -11,6 +11,8 @@ public class FullScene : MonoBehaviour
     int count;
     float distance;
     GameObject obj;
+    [SerializeField]
+    GameObject initialObj;
 
     private void Awake()
     {
@@ -42,8 +44,7 @@ public class FullScene : MonoBehaviour
     {
         var pos = this.transform.position;
         pos.x = pos.x + (distance * count);
-        obj = GameObject.Instantiate(gameObject, pos, gameObject.transform.rotation);
-        Destroy(obj.GetComponent<FullScene>());
+        obj = GameObject.Instantiate(initialObj, pos, gameObject.transform.rotation);
         count++;
     }
 }
