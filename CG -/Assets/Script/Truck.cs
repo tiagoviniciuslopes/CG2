@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Truck : MonoBehaviour
 {
@@ -27,6 +28,14 @@ public class Truck : MonoBehaviour
     GameObject coinSound;
     float velX;
     float velY;
+    [SerializeField]
+    Camera mainCamera;
+    [SerializeField]
+    Text text;
+    [SerializeField]
+    Text coinText;
+    [SerializeField]
+    GameObject renderCanvas;
 
     private void Awake()
     {
@@ -86,9 +95,14 @@ public class Truck : MonoBehaviour
         jump = true;
         if (collision.collider.tag == "Enemy")
         {
+            
+            truck.velocity = Vector3.zero;
+            truck.angularVelocity = 0f;
+
             objExplosion = GameObject.Instantiate(basicExplosion, this.transform.position, this.transform.rotation);
             objExplosionSound = GameObject.Instantiate(basicExplosionSound, this.transform.position, this.transform.rotation);
             Destroy(gameObject.GetComponent<SpriteRenderer>());
+            Destroy(mainCamera.GetComponent<CameraFollow>());
 
             GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
             for (var i = 0; i < gameObjects.Length; i++)
@@ -97,16 +111,7 @@ public class Truck : MonoBehaviour
             }
 
             StartCoroutine(GameOver());
-
-
-        } else if (collision.collider.tag == "Coin") 
-        {
-            objExplosionSound = GameObject.Instantiate(coinSound, this.transform.position, this.transform.rotation);
-            Destroy(collision.collider.gameObject);
-            totalCoins++;
-            Debug.Log(totalCoins);
-            
-        }
+        } 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -115,6 +120,7 @@ public class Truck : MonoBehaviour
         objExplosionSound = GameObject.Instantiate(coinSound, this.transform.position, this.transform.rotation);
         Destroy(collision.gameObject);
         totalCoins++;
+        coinText.text = totalCoins.ToString();
         Debug.Log(totalCoins);
     }
 
@@ -125,7 +131,24 @@ public class Truck : MonoBehaviour
         Destroy(objExplosion.GetComponent<Animator>());
         Destroy(objExplosion.GetComponent<SpriteRenderer>());
 
-        objGameOver = GameObject.Instantiate(basicGameOver, this.transform.position, this.transform.rotation);
+        float x = mainCamera.transform.position.x;
+        float y = mainCamera.transform.position.y;
+
+        Vector3 position = new Vector3(x - 6f, y, 0 );
+        objGameOver = GameObject.Instantiate(basicGameOver, position, Quaternion.Euler(0,0,0));
+
+        Vector3 pos = new Vector3(x + 10f, y - 10, 0);
+        Text tempTextBox = Instantiate(text, pos, Quaternion.Euler(0, 0, 0)) as Text;
+        tempTextBox.fontSize = 50;
+        tempTextBox.alignment = TextAnchor.LowerCenter;
+
+        RectTransform assign_text_1RT = tempTextBox.GetComponent<RectTransform>();
+        assign_text_1RT.anchoredPosition = pos;
+        assign_text_1RT.position = pos;
+        assign_text_1RT.sizeDelta = new Vector2(330, 390);
+
+        tempTextBox.transform.SetParent(renderCanvas.transform, false);
+        
 
         Time.timeScale = 0;
     }
