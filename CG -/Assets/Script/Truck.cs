@@ -137,7 +137,7 @@ public class Truck : MonoBehaviour
         Vector3 position = new Vector3(x - 6f, y, 0 );
         objGameOver = GameObject.Instantiate(basicGameOver, position, Quaternion.Euler(0,0,0));
 
-        Vector3 pos = new Vector3(x - 20f, y - 10, 0);
+        Vector3 pos = new Vector3(x , y - 10, 0);
         Text tempTextBox = Instantiate(text, pos, Quaternion.Euler(0, 0, 0)) as Text;
         tempTextBox.fontSize = 50;
         tempTextBox.alignment = TextAnchor.LowerLeft;
@@ -145,7 +145,7 @@ public class Truck : MonoBehaviour
         RectTransform assign_text_1RT = tempTextBox.GetComponent<RectTransform>();
         assign_text_1RT.anchoredPosition = pos;
         assign_text_1RT.position = pos;
-        assign_text_1RT.sizeDelta = new Vector2(330, 700);
+        assign_text_1RT.sizeDelta = new Vector2(330, 600);
 
         tempTextBox.transform.SetParent(renderCanvas.transform, false);
         
